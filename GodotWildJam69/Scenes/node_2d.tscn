@@ -1,25 +1,233 @@
-[gd_scene load_steps=3 format=3 uid="uid://bcsku5pcp7ffs"]
+[gd_scene load_steps=23 format=3 uid="uid://bcsku5pcp7ffs"]
 
-[ext_resource type="TileSet" uid="uid://do37yyw1nglpq" path="res://Graphics/Tiles/Floor/floor.tres" id="1_kolqw"]
-[ext_resource type="SpriteFrames" uid="uid://b5ja20qa5n1pg" path="res://Graphics/Player/idle.tres" id="2_j6cco"]
+[ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_0q5i5"]
+[ext_resource type="SpriteFrames" uid="uid://b5ja20qa5n1pg" path="res://Graphics/Player/idleAnimation/idle.tres" id="2_j6cco"]
+[ext_resource type="PackedScene" uid="uid://dv1ga667ww6m5" path="res://Scenes/Levels/level9.tscn" id="2_mbnoy"]
+[ext_resource type="PackedScene" uid="uid://xvpu3wnsyu16" path="res://Scenes/Levels/level1.tscn" id="2_n8q3n"]
+[ext_resource type="PackedScene" uid="uid://bstbq2trg6obd" path="res://Scenes/Levels/level10.tscn" id="2_qvvs0"]
+[ext_resource type="PackedScene" uid="uid://dtkjdcjhnpss7" path="res://Scenes/Levels/level8.tscn" id="2_ys4vq"]
+[ext_resource type="PackedScene" uid="uid://drl3q2rr1s5s7" path="res://Scenes/Levels/level2.tscn" id="3_bjbhi"]
+[ext_resource type="PackedScene" uid="uid://dfy8qqojr0x64" path="res://Scenes/Levels/level5.tscn" id="4_1ihlw"]
+[ext_resource type="PackedScene" uid="uid://d0h1xwx8frwnh" path="res://Scenes/Levels/level3.tscn" id="4_5ljl2"]
+[ext_resource type="Texture2D" uid="uid://bk17t4tko77o8" path="res://Graphics/Lighting/lighting_radius.jpg" id="4_r7obt"]
+[ext_resource type="PackedScene" uid="uid://ba38i3gqookop" path="res://Scenes/Levels/level4.tscn" id="5_dsa0x"]
+[ext_resource type="PackedScene" uid="uid://cfange2i6f28f" path="res://Scenes/Levels/level7.tscn" id="5_twlcf"]
+[ext_resource type="Texture2D" uid="uid://bdi8y56wo5qbu" path="res://Graphics/Particles/Leaves/leaf1.png" id="5_wnob5"]
+[ext_resource type="PackedScene" uid="uid://dhrx2bp8eewkf" path="res://Scenes/Levels/level6.tscn" id="7_5nd2w"]
+[ext_resource type="Theme" uid="uid://bjavysdcsw0k5" path="res://Graphics/UI/default_theme.tres" id="7_cffn1"]
+[ext_resource type="Texture2D" uid="uid://xlsr3xd4wl1g" path="res://Graphics/UI/Buttons/normal.png" id="10_ogqyy"]
+[ext_resource type="Texture2D" uid="uid://l2udnatocucp" path="res://Graphics/UI/Buttons/pressed.png" id="11_w0h37"]
+[ext_resource type="Texture2D" uid="uid://d1ur0cpe1mq8a" path="res://Graphics/UI/Buttons/hovered.png" id="12_pw6p4"]
+[ext_resource type="Texture2D" uid="uid://bwn85vx3hx0xl" path="res://Graphics/UI/level_name_frame.png" id="13_5lu44"]
 
-[node name="Node2D" type="Node2D"]
+[sub_resource type="Environment" id="Environment_ut4mw"]
+background_mode = 3
+glow_enabled = true
+glow_blend_mode = 1
+adjustment_contrast = 1.44
+
+[sub_resource type="Animation" id="Animation_u16sj"]
+resource_name = "Fade_in"
+step = 0.5
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("SceneTransitions/ColorRect:self_modulate")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 0.5, 1),
+"transitions": PackedFloat32Array(2.21914, 1, 1),
+"update": 0,
+"values": [Color(1, 1, 1, 0), Color(1, 1, 1, 1), Color(1, 1, 1, 0)]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_fx2a7"]
+_data = {
+"Fade_in": SubResource("Animation_u16sj")
+}
+
+[node name="GameManager" type="Node2D"]
 texture_filter = 1
+script = ExtResource("1_0q5i5")
+levels = Array[PackedScene]([ExtResource("2_n8q3n"), ExtResource("3_bjbhi"), ExtResource("4_5ljl2"), ExtResource("5_dsa0x"), ExtResource("4_1ihlw"), ExtResource("7_5nd2w"), ExtResource("5_twlcf"), ExtResource("2_ys4vq"), ExtResource("2_mbnoy"), ExtResource("2_qvvs0")])
+restart_color = Color(0.08, 0.08, 0.08, 1)
+skip_and_previous_color = Color(0, 1.44392e-07, 0.23362, 1)
+complete_color = Color(0.183641, 0.301256, 0.176616, 1)
+death_color = Color(0.340019, 0.114088, 0.148725, 1)
 
-[node name="TileMap" type="TileMap" parent="."]
-texture_filter = 1
-tile_set = ExtResource("1_kolqw")
-format = 2
-layer_0/name = "Ground"
-layer_0/tile_data = PackedInt32Array(-65538, 0, 0, -2, 0, 1, 65534, 0, 1, 131070, 0, 1, 196606, 0, 1, 262142, 0, 2, -65537, 65536, 0, -1, 65536, 1, 65535, 262144, 0, 131071, 131072, 1, 196607, 262144, 1, 262143, 65536, 2, -131072, 65536, 0, -65536, 65536, 1, 0, 65536, 2, 131072, 65536, 0, 196608, 65536, 2, -196607, 0, 0, -131071, 327680, 1, -65535, 65536, 1, 1, 327680, 0, 65537, 0, 1, 131073, 327680, 1, 196609, 65536, 2, -196606, 65536, 0, -131070, 65536, 1, -65534, 65536, 1, 2, 65536, 1, 65538, 65536, 1, 131074, 65536, 1, 196610, 65536, 2, -196605, 65536, 0, -131069, 65536, 1, -65533, 65536, 1, 3, 262144, 0, 65539, 131072, 1, 131075, 131072, 1, 196611, 131072, 2, -196604, 65536, 0, -131068, 65536, 1, -65532, 65536, 1, 4, 65536, 2, -196603, 65536, 0, -131067, 65536, 1, -65531, 65536, 1, 5, 65536, 2, -196602, 131072, 0, -131066, 131072, 1, -65530, 131072, 1, 6, 131072, 2)
-layer_1/name = "GroundCover"
-layer_1/tile_data = PackedInt32Array(65536, 327681, 2, -65539, 131073, 1, -3, 131073, 1, 65533, 131073, 1, 131069, 131073, 1, 196605, 131073, 1, 262141, 131073, 1, -131074, 65537, 2, -131073, 65537, 2, -262143, 65537, 2, -262142, 65537, 2, -262141, 65537, 2, -262140, 65537, 2, -262139, 65537, 2, -262138, 65537, 2, 327678, 65537, 0, 327679, 65537, 0, 262144, 65537, 0, 262145, 65537, 0, 262146, 65537, 0, 262147, 65537, 0, 65541, 65537, 0, 65542, 65537, 0, -196601, 1, 1, -131065, 1, 1, -65529, 1, 1, 7, 1, 1, -262137, 327681, 0, 327677, 262145, 1, -131075, 262145, 0, -262144, 262145, 0, 65543, 327681, 1, 262148, 327681, 1, 131076, 1, 1, 196612, 1, 1, -196608, 131073, 2, 65540, 1, 0, 131077, 65537, 1, 196613, 65537, 1, 262149, 65537, 1, 262150, 65537, 1, 196614, 65537, 1, 131078, 65537, 1, 131079, 65537, 1, 196615, 65537, 1, 262151, 65537, 1, 262152, 65537, 1, 196616, 65537, 1, 131080, 65537, 1, 65544, 65537, 1, 8, 65537, 1, -65528, 65537, 1, -131064, 65537, 1, -196600, 65537, 1, -262136, 65537, 1, -327672, 65537, 1, -327673, 65537, 1, -327674, 65537, 1, -327675, 65537, 1, -327676, 65537, 1, -327677, 65537, 1, -327678, 65537, 1, -327679, 65537, 1, -327680, 65537, 1, -262145, 65537, 1, -262146, 65537, 1, -262147, 65537, 1, -262148, 65537, 1, -262149, 65537, 1, -262150, 65537, 1, -262151, 65537, 1, -262152, 65537, 1, -262153, 65537, 1, -196617, 65537, 1, -131081, 65537, 1, -65545, 65537, 1, -9, 65537, 1, 65527, 65537, 1, 327671, 65537, 1, 327672, 65537, 1, 327673, 65537, 1, 327674, 65537, 1, 327675, 65537, 1, 327676, 65537, 1, 262140, 65537, 1, 196604, 65537, 1, 131068, 65537, 1, 65532, 65537, 1, -4, 65537, 1, -65540, 65537, 1, -131076, 65537, 1, -196612, 65537, 1, -196613, 65537, 1, -196614, 65537, 1, -196615, 65537, 1, -196616, 65537, 1, -65544, 65537, 1, -8, 65537, 1, 65528, 65537, 1, 131064, 65537, 1, 196600, 65537, 1, 196599, 65537, 1, 262135, 65537, 1, 131063, 65537, 1, -131080, 65537, 1, -7, 65537, 1, 65529, 65537, 1, 131065, 65537, 1, 196601, 65537, 1, 262137, 65537, 1, 262136, 65537, 1, -65543, 65537, 1, -131079, 65537, 1, -131078, 65537, 1, -65542, 65537, 1, -6, 65537, 1, -5, 65537, 1, 65531, 65537, 1, 131067, 65537, 1, 196603, 65537, 1, 262139, 65537, 1, 262138, 65537, 1, 196602, 65537, 1, 131066, 65537, 1, 65530, 65537, 1, -65541, 65537, 1, -131077, 65537, 1, -196611, 65537, 1, -196610, 65537, 1, -196609, 65537, 1, -131071, 1, 3, 131073, 1, 3)
+[node name="VoidAnimationTimer" type="Timer" parent="."]
+wait_time = 0.05
+one_shot = true
 
 [node name="Camera2D" type="Camera2D" parent="."]
+unique_name_in_owner = true
 zoom = Vector2(2, 2)
 
 [node name="Player" type="AnimatedSprite2D" parent="."]
-position = Vector2(81, -48)
+unique_name_in_owner = true
+z_index = 1
 sprite_frames = ExtResource("2_j6cco")
 autoplay = "default"
 frame_progress = 0.42915
+
+[node name="PointLight2D" type="PointLight2D" parent="Player"]
+scale = Vector2(1.01, 1)
+color = Color(0.936271, 0.615056, 0.774663, 1)
+energy = 0.28
+shadow_enabled = true
+shadow_filter = 1
+texture = ExtResource("4_r7obt")
+texture_scale = 1.25
+
+[node name="WorldEnvironment" type="WorldEnvironment" parent="."]
+unique_name_in_owner = true
+environment = SubResource("Environment_ut4mw")
+
+[node name="CanvasModulate" type="CanvasModulate" parent="."]
+unique_name_in_owner = true
+color = Color(0.40326, 0.253747, 0.32952, 1)
+
+[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
+unique_name_in_owner = true
+modulate = Color(3, 3, 3, 1)
+z_index = 4
+position = Vector2(-367, 0)
+amount = 150
+lifetime = 146.87
+randomness = 0.45
+lifetime_randomness = 0.45
+texture = ExtResource("5_wnob5")
+emission_shape = 3
+emission_rect_extents = Vector2(1, 300)
+direction = Vector2(0, 1)
+gravity = Vector2(10, 2)
+linear_accel_max = 0.01
+angle_min = -20.0
+angle_max = 20.0
+scale_amount_min = 0.4
+scale_amount_max = 2.0
+
+[node name="SceneTransitions" type="AnimationPlayer" parent="."]
+unique_name_in_owner = true
+libraries = {
+"": SubResource("AnimationLibrary_fx2a7")
+}
+
+[node name="ColorRect" type="ColorRect" parent="SceneTransitions"]
+self_modulate = Color(1, 1, 1, 0)
+z_index = 10
+anchors_preset = -1
+anchor_left = -0.25
+anchor_top = -0.25
+anchor_right = 0.25
+anchor_bottom = 0.25
+color = Color(0.294793, 0.0133245, 0.255539, 1)
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+unique_name_in_owner = true
+
+[node name="Control" type="Control" parent="CanvasLayer"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_cffn1")
+
+[node name="PreviousButton" type="TextureButton" parent="CanvasLayer/Control"]
+layout_mode = 1
+offset_left = 15.0
+offset_top = 15.0
+offset_right = 207.0
+offset_bottom = 63.0
+texture_normal = ExtResource("10_ogqyy")
+texture_pressed = ExtResource("11_w0h37")
+texture_hover = ExtResource("12_pw6p4")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/PreviousButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 31
+text = "Previous"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="SkipButton" type="TextureButton" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 1
+anchor_left = 1.0
+anchor_right = 1.0
+offset_left = -225.0
+offset_top = 15.0
+offset_right = -25.0
+offset_bottom = 65.0
+grow_horizontal = 0
+texture_normal = ExtResource("10_ogqyy")
+texture_pressed = ExtResource("11_w0h37")
+texture_hover = ExtResource("12_pw6p4")
+
+[node name="Label" type="Label" parent="CanvasLayer/Control/SkipButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 31
+text = "Skip"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelNamePanel" type="TextureRect" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -192.0
+offset_top = 29.0
+offset_right = 192.0
+offset_bottom = 93.0
+grow_horizontal = 2
+texture = ExtResource("13_5lu44")
+
+[node name="LevelLabel" type="Label" parent="CanvasLayer/Control/LevelNamePanel"]
+unique_name_in_owner = true
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -3.0
+offset_bottom = -3.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_colors/font_color = Color(0.921787, 0.765769, 0.974153, 1)
+theme_override_font_sizes/font_size = 55
+text = "Level 01"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="RestartLabel" type="Label" parent="CanvasLayer/Control"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 15.0
+offset_top = -44.0
+offset_right = 433.0
+grow_vertical = 0
+theme_override_font_sizes/font_size = 31
+text = "Press r to restart level"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[connection signal="timeout" from="VoidAnimationTimer" to="." method="next_void_step_in_animation"]
+[connection signal="animation_finished" from="SceneTransitions" to="." method="_on_scene_transitions_animation_finished"]
+[connection signal="animation_started" from="SceneTransitions" to="." method="_on_scene_transitions_animation_started"]
+[connection signal="pressed" from="CanvasLayer/Control/PreviousButton" to="." method="_on_previous_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Control/SkipButton" to="." method="_on_skip_button_pressed"]
