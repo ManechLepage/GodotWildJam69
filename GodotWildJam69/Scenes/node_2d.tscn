@@ -1,12 +1,16 @@
-[gd_scene load_steps=23 format=3 uid="uid://bcsku5pcp7ffs"]
+[gd_scene load_steps=51 format=3 uid="uid://bcsku5pcp7ffs"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_0q5i5"]
+[ext_resource type="PackedScene" uid="uid://b8ygrgc3aj138" path="res://Scenes/Levels/level11.tscn" id="2_edas0"]
+[ext_resource type="PackedScene" uid="uid://d4sbcxudx4we" path="res://Scenes/Levels/level14.tscn" id="2_f1qf6"]
 [ext_resource type="SpriteFrames" uid="uid://b5ja20qa5n1pg" path="res://Graphics/Player/idleAnimation/idle.tres" id="2_j6cco"]
 [ext_resource type="PackedScene" uid="uid://dv1ga667ww6m5" path="res://Scenes/Levels/level9.tscn" id="2_mbnoy"]
 [ext_resource type="PackedScene" uid="uid://xvpu3wnsyu16" path="res://Scenes/Levels/level1.tscn" id="2_n8q3n"]
+[ext_resource type="PackedScene" uid="uid://dqld4887wl64a" path="res://Scenes/Levels/level12.tscn" id="2_q6y6h"]
 [ext_resource type="PackedScene" uid="uid://bstbq2trg6obd" path="res://Scenes/Levels/level10.tscn" id="2_qvvs0"]
 [ext_resource type="PackedScene" uid="uid://dtkjdcjhnpss7" path="res://Scenes/Levels/level8.tscn" id="2_ys4vq"]
 [ext_resource type="PackedScene" uid="uid://drl3q2rr1s5s7" path="res://Scenes/Levels/level2.tscn" id="3_bjbhi"]
+[ext_resource type="PackedScene" uid="uid://ceuu5yqwf7oso" path="res://Scenes/Levels/level13.tscn" id="3_jnfbw"]
 [ext_resource type="PackedScene" uid="uid://dfy8qqojr0x64" path="res://Scenes/Levels/level5.tscn" id="4_1ihlw"]
 [ext_resource type="PackedScene" uid="uid://d0h1xwx8frwnh" path="res://Scenes/Levels/level3.tscn" id="4_5ljl2"]
 [ext_resource type="Texture2D" uid="uid://bk17t4tko77o8" path="res://Graphics/Lighting/lighting_radius.jpg" id="4_r7obt"]
@@ -19,6 +23,25 @@
 [ext_resource type="Texture2D" uid="uid://l2udnatocucp" path="res://Graphics/UI/Buttons/pressed.png" id="11_w0h37"]
 [ext_resource type="Texture2D" uid="uid://d1ur0cpe1mq8a" path="res://Graphics/UI/Buttons/hovered.png" id="12_pw6p4"]
 [ext_resource type="Texture2D" uid="uid://bwn85vx3hx0xl" path="res://Graphics/UI/level_name_frame.png" id="13_5lu44"]
+[ext_resource type="Script" path="res://Scripts/Camera2D.gd" id="16_qy1ku"]
+[ext_resource type="Script" path="res://Scripts/text.gd" id="19_4ti4a"]
+[ext_resource type="Texture2D" uid="uid://blemaod7ojavw" path="res://Graphics/Cutscenes/beginning1.png" id="20_llasl"]
+[ext_resource type="Texture2D" uid="uid://da7mv10aqhss3" path="res://Graphics/Cutscenes/beginning2.png" id="21_roc3k"]
+[ext_resource type="Texture2D" uid="uid://h0xrnif07qv3" path="res://Graphics/Cutscenes/beginning3.png" id="22_2t13n"]
+[ext_resource type="Texture2D" uid="uid://6oxfj8fr2u36" path="res://Graphics/Cutscenes/ending1.png" id="23_trkkq"]
+[ext_resource type="AudioStream" uid="uid://dxxule216b6mt" path="res://Sound/Music/UNIVERSFIELD - Peaceful Audio Ambiance.mp3" id="24_3b1x7"]
+[ext_resource type="Script" path="res://Scripts/main_menu.gd" id="24_en47r"]
+[ext_resource type="Texture2D" uid="uid://dpdqlgmjkxyiw" path="res://Graphics/UI/title.png" id="25_wwhko"]
+[ext_resource type="Script" path="res://Scripts/MenuClick.gd" id="25_y42lf"]
+[ext_resource type="AudioStream" uid="uid://dg1n1vme62xqk" path="res://Sound/SFX/MenuClicks/click1.mp3" id="26_kc0f1"]
+[ext_resource type="AudioStream" uid="uid://b88qajrb3rv73" path="res://Sound/SFX/Walking.wav" id="28_dulmu"]
+[ext_resource type="AudioStream" uid="uid://cfub3poq55ad6" path="res://Sound/SFX/pushBox.wav" id="29_ubouk"]
+[ext_resource type="AudioStream" uid="uid://78ljm1fj5thn" path="res://Sound/SFX/win.wav" id="30_fgra7"]
+[ext_resource type="AudioStream" uid="uid://ffkoahr05tn2" path="res://Sound/SFX/Restart.ogg" id="31_a42cg"]
+[ext_resource type="AudioStream" uid="uid://btw8sfb7hu68f" path="res://Sound/SFX/death.wav" id="31_p5b7n"]
+[ext_resource type="AudioStream" uid="uid://ec4v0jiv2xj8" path="res://Sound/SFX/aquireKey.wav" id="32_ylk3k"]
+[ext_resource type="AudioStream" uid="uid://5b88ljjb6xhp" path="res://Sound/SFX/unlock_door.wav" id="33_ne2xe"]
+[ext_resource type="AudioStream" uid="uid://bub21nn3c6ws2" path="res://Sound/SFX/teleport.wav" id="34_blva4"]
 
 [sub_resource type="Environment" id="Environment_ut4mw"]
 background_mode = 3
@@ -47,10 +70,57 @@ _data = {
 "Fade_in": SubResource("Animation_u16sj")
 }
 
+[sub_resource type="StyleBoxFlat" id="StyleBoxFlat_yqph4"]
+bg_color = Color(0.0214346, 0.0214346, 0.0214346, 1)
+border_width_left = 4
+border_width_top = 4
+border_width_right = 4
+border_width_bottom = 2
+
+[sub_resource type="Animation" id="Animation_ekjgr"]
+resource_name = "text_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/MarginContainer/HBoxContainer/Label2:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
+[sub_resource type="Animation" id="Animation_frjek"]
+length = 0.001
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/MarginContainer/HBoxContainer/Label2:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0),
+"transitions": PackedFloat32Array(1),
+"update": 0,
+"values": [1.0]
+}
+
+[sub_resource type="AnimationLibrary" id="AnimationLibrary_r0llg"]
+_data = {
+"RESET": SubResource("Animation_frjek"),
+"text_animation": SubResource("Animation_ekjgr")
+}
+
+[sub_resource type="Gradient" id="Gradient_r0srq"]
+offsets = PackedFloat32Array(0.196429, 0.8125)
+colors = PackedColorArray(0.106239, 0.0482436, 0.0196758, 1, 0.477225, 0.292267, 0.188833, 1)
+
 [node name="GameManager" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_0q5i5")
-levels = Array[PackedScene]([ExtResource("2_n8q3n"), ExtResource("3_bjbhi"), ExtResource("4_5ljl2"), ExtResource("5_dsa0x"), ExtResource("4_1ihlw"), ExtResource("7_5nd2w"), ExtResource("5_twlcf"), ExtResource("2_ys4vq"), ExtResource("2_mbnoy"), ExtResource("2_qvvs0")])
+levels = Array[PackedScene]([ExtResource("2_n8q3n"), ExtResource("3_bjbhi"), ExtResource("4_5ljl2"), ExtResource("5_dsa0x"), ExtResource("4_1ihlw"), ExtResource("7_5nd2w"), ExtResource("5_twlcf"), ExtResource("2_ys4vq"), ExtResource("2_mbnoy"), ExtResource("2_qvvs0"), ExtResource("2_edas0"), ExtResource("2_q6y6h"), ExtResource("3_jnfbw"), ExtResource("2_f1qf6")])
 restart_color = Color(0.08, 0.08, 0.08, 1)
 skip_and_previous_color = Color(0, 1.44392e-07, 0.23362, 1)
 complete_color = Color(0.183641, 0.301256, 0.176616, 1)
@@ -63,9 +133,11 @@ one_shot = true
 [node name="Camera2D" type="Camera2D" parent="."]
 unique_name_in_owner = true
 zoom = Vector2(2, 2)
+script = ExtResource("16_qy1ku")
 
 [node name="Player" type="AnimatedSprite2D" parent="."]
 unique_name_in_owner = true
+visible = false
 z_index = 1
 sprite_frames = ExtResource("2_j6cco")
 autoplay = "default"
@@ -88,26 +160,6 @@ environment = SubResource("Environment_ut4mw")
 unique_name_in_owner = true
 color = Color(0.40326, 0.253747, 0.32952, 1)
 
-[node name="CPUParticles2D" type="CPUParticles2D" parent="."]
-unique_name_in_owner = true
-modulate = Color(3, 3, 3, 1)
-z_index = 4
-position = Vector2(-367, 0)
-amount = 150
-lifetime = 146.87
-randomness = 0.45
-lifetime_randomness = 0.45
-texture = ExtResource("5_wnob5")
-emission_shape = 3
-emission_rect_extents = Vector2(1, 300)
-direction = Vector2(0, 1)
-gravity = Vector2(10, 2)
-linear_accel_max = 0.01
-angle_min = -20.0
-angle_max = 20.0
-scale_amount_min = 0.4
-scale_amount_max = 2.0
-
 [node name="SceneTransitions" type="AnimationPlayer" parent="."]
 unique_name_in_owner = true
 libraries = {
@@ -124,10 +176,93 @@ anchor_right = 0.25
 anchor_bottom = 0.25
 color = Color(0.294793, 0.0133245, 0.255539, 1)
 
-[node name="CanvasLayer" type="CanvasLayer" parent="."]
-unique_name_in_owner = true
+[node name="Text" type="CanvasLayer" parent="."]
+visible = false
+script = ExtResource("19_4ti4a")
+beginning_textures = Array[Texture]([ExtResource("20_llasl"), ExtResource("21_roc3k"), ExtResource("22_2t13n"), ExtResource("23_trkkq")])
 
-[node name="Control" type="Control" parent="CanvasLayer"]
+[node name="Image" type="Control" parent="Text"]
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="TextureRect" type="TextureRect" parent="Text/Image"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("20_llasl")
+
+[node name="MarginContainer" type="MarginContainer" parent="Text"]
+anchors_preset = 12
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -218.0
+grow_horizontal = 2
+grow_vertical = 0
+theme = ExtResource("7_cffn1")
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="Text/MarginContainer"]
+layout_mode = 2
+theme_override_styles/panel = SubResource("StyleBoxFlat_yqph4")
+
+[node name="MarginContainer" type="MarginContainer" parent="Text/MarginContainer"]
+layout_mode = 2
+theme_override_constants/margin_left = 16
+theme_override_constants/margin_top = 16
+theme_override_constants/margin_right = 16
+theme_override_constants/margin_bottom = 16
+
+[node name="Panel" type="Panel" parent="Text/MarginContainer/MarginContainer"]
+visible = false
+layout_mode = 2
+
+[node name="HBoxContainer" type="HBoxContainer" parent="Text/MarginContainer/MarginContainer"]
+layout_mode = 2
+
+[node name="StartSymbol" type="Label" parent="Text/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 4
+size_flags_vertical = 0
+theme_override_font_sizes/font_size = 60
+text = "*"
+
+[node name="Label2" type="Label" parent="Text/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+size_flags_vertical = 1
+theme_override_font_sizes/font_size = 50
+text = "Placeholder Text for the game. This is for the cutscene and this is a test to se if it works"
+autowrap_mode = 2
+clip_text = true
+
+[node name="EndSymbol" type="Label" parent="Text/MarginContainer/MarginContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 8
+theme_override_font_sizes/font_size = 60
+text = "*"
+
+[node name="AnimationPlayer" type="AnimationPlayer" parent="Text"]
+libraries = {
+"": SubResource("AnimationLibrary_r0llg")
+}
+
+[node name="CanvasLayer" type="CanvasLayer" parent="."]
+
+[node name="LevelUI" type="Control" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
 layout_mode = 3
 anchors_preset = 15
 anchor_right = 1.0
@@ -136,7 +271,7 @@ grow_horizontal = 2
 grow_vertical = 2
 theme = ExtResource("7_cffn1")
 
-[node name="PreviousButton" type="TextureButton" parent="CanvasLayer/Control"]
+[node name="PreviousButton" type="TextureButton" parent="CanvasLayer/LevelUI"]
 layout_mode = 1
 offset_left = 15.0
 offset_top = 15.0
@@ -146,7 +281,7 @@ texture_normal = ExtResource("10_ogqyy")
 texture_pressed = ExtResource("11_w0h37")
 texture_hover = ExtResource("12_pw6p4")
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/PreviousButton"]
+[node name="Label" type="Label" parent="CanvasLayer/LevelUI/PreviousButton"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -158,7 +293,7 @@ text = "Previous"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="SkipButton" type="TextureButton" parent="CanvasLayer/Control"]
+[node name="SkipButton" type="TextureButton" parent="CanvasLayer/LevelUI"]
 layout_mode = 1
 anchors_preset = 1
 anchor_left = 1.0
@@ -172,7 +307,7 @@ texture_normal = ExtResource("10_ogqyy")
 texture_pressed = ExtResource("11_w0h37")
 texture_hover = ExtResource("12_pw6p4")
 
-[node name="Label" type="Label" parent="CanvasLayer/Control/SkipButton"]
+[node name="Label" type="Label" parent="CanvasLayer/LevelUI/SkipButton"]
 layout_mode = 1
 anchors_preset = 15
 anchor_right = 1.0
@@ -184,7 +319,36 @@ text = "Skip"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="LevelNamePanel" type="TextureRect" parent="CanvasLayer/Control"]
+[node name="BackToMenuButton" type="TextureButton" parent="CanvasLayer/LevelUI"]
+layout_mode = 1
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -271.0
+offset_top = -79.0
+offset_right = -15.0
+offset_bottom = -15.0
+grow_horizontal = 0
+grow_vertical = 0
+texture_normal = ExtResource("10_ogqyy")
+texture_pressed = ExtResource("11_w0h37")
+texture_hover = ExtResource("12_pw6p4")
+
+[node name="Label" type="Label" parent="CanvasLayer/LevelUI/BackToMenuButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 31
+text = "Back to menu"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="LevelNamePanel" type="TextureRect" parent="CanvasLayer/LevelUI"]
 layout_mode = 1
 anchors_preset = 5
 anchor_left = 0.5
@@ -196,7 +360,7 @@ offset_bottom = 93.0
 grow_horizontal = 2
 texture = ExtResource("13_5lu44")
 
-[node name="LevelLabel" type="Label" parent="CanvasLayer/Control/LevelNamePanel"]
+[node name="LevelLabel" type="Label" parent="CanvasLayer/LevelUI/LevelNamePanel"]
 unique_name_in_owner = true
 layout_mode = 1
 anchors_preset = 15
@@ -212,7 +376,7 @@ text = "Level 01"
 horizontal_alignment = 1
 vertical_alignment = 1
 
-[node name="RestartLabel" type="Label" parent="CanvasLayer/Control"]
+[node name="RestartLabel" type="Label" parent="CanvasLayer/LevelUI"]
 layout_mode = 1
 anchors_preset = 2
 anchor_top = 1.0
@@ -222,12 +386,258 @@ offset_top = -44.0
 offset_right = 433.0
 grow_vertical = 0
 theme_override_font_sizes/font_size = 31
-text = "Press r to restart level"
+text = "Press r to restart
+"
+vertical_alignment = 1
+
+[node name="MainMenu" type="Control" parent="CanvasLayer" groups=["main_menu"]]
+unique_name_in_owner = true
+texture_filter = 1
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_cffn1")
+script = ExtResource("24_en47r")
+
+[node name="ColorRect" type="TextureRect" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+texture = ExtResource("23_trkkq")
+
+[node name="PlayButton" type="TextureButton" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -192.0
+offset_top = 300.0
+offset_right = 64.0
+offset_bottom = 364.0
+grow_horizontal = 2
+scale = Vector2(1.5, 1.5)
+texture_normal = ExtResource("10_ogqyy")
+texture_pressed = ExtResource("11_w0h37")
+texture_hover = ExtResource("12_pw6p4")
+
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu/PlayButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 60
+text = "Play"
 horizontal_alignment = 1
 vertical_alignment = 1
+
+[node name="CreditsButton" type="TextureButton" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -192.0
+offset_top = 401.0
+offset_right = 64.0
+offset_bottom = 465.0
+grow_horizontal = 2
+scale = Vector2(1.5, 1.5)
+texture_normal = ExtResource("10_ogqyy")
+texture_pressed = ExtResource("11_w0h37")
+texture_hover = ExtResource("12_pw6p4")
+
+[node name="Label" type="Label" parent="CanvasLayer/MainMenu/CreditsButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Credits"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Title" type="TextureRect" parent="CanvasLayer/MainMenu"]
+layout_mode = 1
+anchors_preset = 5
+anchor_left = 0.5
+anchor_right = 0.5
+offset_left = -384.0
+offset_right = -256.0
+offset_bottom = 64.0
+grow_horizontal = 2
+scale = Vector2(6, 6)
+mouse_filter = 2
+texture = ExtResource("25_wwhko")
+
+[node name="Credits" type="Control" parent="CanvasLayer"]
+unique_name_in_owner = true
+visible = false
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+theme = ExtResource("7_cffn1")
+
+[node name="ColorRect2" type="ColorRect" parent="CanvasLayer/Credits"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+color = Color(0.435294, 0.341176, 0.494118, 1)
+
+[node name="BackButton" type="TextureButton" parent="CanvasLayer/Credits"]
+layout_mode = 1
+anchors_preset = 2
+anchor_top = 1.0
+anchor_bottom = 1.0
+offset_left = 13.0
+offset_top = -109.0
+offset_right = 269.0
+offset_bottom = -45.0
+grow_vertical = 0
+scale = Vector2(1.5, 1.5)
+texture_normal = ExtResource("10_ogqyy")
+texture_pressed = ExtResource("11_w0h37")
+texture_hover = ExtResource("12_pw6p4")
+
+[node name="Label" type="Label" parent="CanvasLayer/Credits/BackButton"]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_top = -2.0
+offset_bottom = -2.0
+grow_horizontal = 2
+grow_vertical = 2
+theme_override_font_sizes/font_size = 50
+text = "Back"
+horizontal_alignment = 1
+vertical_alignment = 1
+
+[node name="Music" type="AudioStreamPlayer" parent="."]
+stream = ExtResource("24_3b1x7")
+volume_db = -10.0
+autoplay = true
+
+[node name="SFX" type="Node" parent="."]
+
+[node name="MenuClick" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+script = ExtResource("25_y42lf")
+clicks = Array[AudioStream]([ExtResource("26_kc0f1")])
+
+[node name="Restart" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("31_a42cg")
+
+[node name="Walking" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("28_dulmu")
+volume_db = -15.0
+pitch_scale = 2.0
+
+[node name="PushBox" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("29_ubouk")
+volume_db = -20.0
+pitch_scale = 0.8
+
+[node name="Win" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("30_fgra7")
+volume_db = -10.0
+pitch_scale = 0.7
+
+[node name="Death" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("31_p5b7n")
+volume_db = -10.0
+
+[node name="AquireKey" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("32_ylk3k")
+volume_db = -10.0
+pitch_scale = 0.7
+
+[node name="UnlockDoor" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("33_ne2xe")
+volume_db = -5.0
+
+[node name="Teleport" type="AudioStreamPlayer" parent="SFX"]
+unique_name_in_owner = true
+stream = ExtResource("34_blva4")
+volume_db = -30.0
+pitch_scale = 2.0
+
+[node name="Particles" type="Node" parent="."]
+
+[node name="Leaves" type="CPUParticles2D" parent="Particles"]
+unique_name_in_owner = true
+visible = false
+modulate = Color(3, 3, 3, 1)
+z_index = 4
+position = Vector2(-297, -25)
+amount = 200
+lifetime = 146.87
+randomness = 0.45
+lifetime_randomness = 0.45
+texture = ExtResource("5_wnob5")
+emission_shape = 3
+emission_rect_extents = Vector2(1, 250)
+direction = Vector2(1, 1)
+spread = 180.0
+gravity = Vector2(10, 2)
+linear_accel_max = 0.01
+angle_min = -20.0
+angle_max = 20.0
+scale_amount_min = 0.4
+scale_amount_max = 2.0
+
+[node name="DestroyDoor" type="CPUParticles2D" parent="Particles"]
+unique_name_in_owner = true
+visible = false
+z_index = 4
+emitting = false
+amount = 20
+lifetime = 0.6
+one_shot = true
+explosiveness = 1.0
+lifetime_randomness = 0.65
+spread = 180.0
+gravity = Vector2(0, 0)
+initial_velocity_min = 35.0
+initial_velocity_max = 50.0
+angular_velocity_min = -180.0
+angular_velocity_max = 180.0
+scale_amount_min = 2.0
+scale_amount_max = 5.0
+color = Color(0.299178, 0.135465, 0.119935, 1)
+color_ramp = SubResource("Gradient_r0srq")
 
 [connection signal="timeout" from="VoidAnimationTimer" to="." method="next_void_step_in_animation"]
 [connection signal="animation_finished" from="SceneTransitions" to="." method="_on_scene_transitions_animation_finished"]
 [connection signal="animation_started" from="SceneTransitions" to="." method="_on_scene_transitions_animation_started"]
-[connection signal="pressed" from="CanvasLayer/Control/PreviousButton" to="." method="_on_previous_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/Control/SkipButton" to="." method="_on_skip_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/LevelUI/PreviousButton" to="." method="_on_previous_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/LevelUI/SkipButton" to="." method="_on_skip_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/LevelUI/BackToMenuButton" to="." method="_on_back_to_menu_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/PlayButton" to="CanvasLayer/MainMenu" method="_on_play_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/MainMenu/CreditsButton" to="." method="_on_credits_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/Credits/BackButton" to="." method="_on_back_button_pressed"]

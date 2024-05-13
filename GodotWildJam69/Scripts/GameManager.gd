@@ -4,6 +4,22 @@ extends Node2D
 @onready var scene_transitions:AnimationPlayer = %SceneTransitions
 @onready var level_label = %LevelLabel
 @onready var void_animation_timer = $VoidAnimationTimer
+@onready var credits = %Credits
+@onready var main_menu = %MainMenu
+@onready var camera = %Camera2D
+@onready var level_ui = %LevelUI
+
+@onready var menu_click:AudioStreamPlayer = %MenuClick
+@onready var restart:AudioStreamPlayer = %Restart
+@onready var walking = %Walking
+@onready var push_box = %PushBox
+@onready var win = %Win
+@onready var death = %Death
+@onready var aquire_key = %AquireKey
+@onready var unlock_door = %UnlockDoor
+@onready var teleport_sound = %Teleport
+
+@onready var destroy_door = %DestroyDoor
 
 @export var levels:Array[PackedScene]
 
@@ -15,11 +31,17 @@ extends Node2D
 
 var tile_map:TileMap
 var current_level:int
+
 var is_playing_animation:bool
+
 var void_levels:Array[Array]
 var current_void_step:int
 
-func _ready():
+var player_has_key = false
+
+var undo_redo = UndoRedo.new()
+
+func start_game():
 	current_level = 0
 	load_level(current_level)
 
@@ -52,28 +74,38 @@ func _input(event):
 			move_player(Vector2i(0, -1))
 			update_void()
 			if is_player_dead():
+				death.play()
+				update_transition_color(death_color)
 				load_level(current_level)
 		if event.is_action_pressed("down"):
 			move_player(Vector2i(0, 1))
 			update_void()
 			if is_player_dead():
+				death.play()
+				update_transition_color(death_color)
 				load_level(current_level)
 		if event.is_action_pressed("left"):
 			move_player(Vector2i(-1, 0))
 			update_void()
 			if is_player_dead():
+				death.play()
+				update_transition_color(death_color)
 				load_level(current_level)
 		if event.is_action_pressed("right"):
 			move_player(Vector2i(1, 0))
 			update_void()
 			if is_player_dead():
+				death.play()
+				update_transition_color(death_color)
 				load_level(current_level)
 	
 	if event.is_action_pressed("restart"):
+		restart.play()
 		update_transition_color(restart_color)
 		load_level(current_level)
 
 func move_player(direction:Vector2i):
+	walking.play()
 	var player_pos = tile_map.local_to_map(player.position)
 	var next_player_pos = player_pos + direction
 	var next_tile:TileData = tile_map.get_cell_tile_data(1, next_player_pos)
@@ -81,16 +113,40 @@ func move_player(direction:Vector2i):
 	if not next_tile:
 		can_move = true
 	elif next_tile.get_custom_data("pushable"):
+		push_box.play()
 		var move = move_cell(next_player_pos, direction, [])
 		if move[0]:
 			push_cell(move[1], direction)
 			can_move = true
+	if player_has_key:
+		if next_tile:
+			if next_tile.get_custom_data("is_door"):
+				destroy_door.position = tile_map.map_to_local(next_player_pos)
+				destroy_door.emitting = true
+				camera.apply_door_shake()
+				unlock_door.play()
+				tile_map.erase_cell(1, next_player_pos)
+				can_move = true
+				player_has_key = false
 	if can_move:
 		player.position = tile_map.map_to_local(next_player_pos)
+	
 	rotate_player(direction)
+	
+	var ground_cover_next_tile:TileData = tile_map.get_cell_tile_data(3, next_player_pos)
+	if ground_cover_next_tile:
+		if is_player_on_key():
+			aquire_key.play()
+			player_has_key = true
+			tile_map.erase_cell(3, tile_map.local_to_map(player.position))
+		if ground_cover_next_tile.get_custom_data("is_teleporter"):
+			player.position = tile_map.map_to_local(teleport(next_player_pos))
+	
 	if is_player_on_goal():
 		level_completed()
+	
 	if is_player_dead():
+		death.play()
 		update_transition_color(death_color)
 		load_level(current_level)
 
@@ -112,6 +168,13 @@ func push_cell(tile_positions:Array, direction:Vector2i):
 		tile_map.erase_cell(1, tile_position)
 		tile_map.erase_cell(2, tile_position + direction)
 		print(tile_map.get_used_cells(2))
+
+func teleport(current_position:Vector2i):
+	camera.apply_teleport_shake()
+	teleport_sound.play()
+	for cell in tile_map.get_used_cells_by_id(3, 1, Vector2i(3, 4)):
+		if cell != current_position:
+			return cell
 
 func rotate_player(direction:Vector2i):
 	if direction.y == -1:
@@ -155,6 +218,12 @@ func check_for_void(cell_position:Vector2i, resistance:int):
 func update_transition_color(color:Color):
 	scene_transitions.get_child(0).color = color
 
+func is_player_on_key():
+	var tile_data = tile_map.get_cell_tile_data(3, tile_map.local_to_map(player.position))
+	if tile_data:
+		return tile_data.get_custom_data("is_key")
+	return false
+
 func is_player_on_goal():
 	return tile_map.get_cell_tile_data(0, tile_map.local_to_map(player.position)).get_custom_data("is_goal")
 
@@ -162,21 +231,27 @@ func is_player_dead():
 	return tile_map.get_cell_tile_data(2, tile_map.local_to_map(player.position))
 
 func _on_previous_button_pressed():
+	menu_click.play_click()
 	if current_level > 0:
 		current_level -= 1
 		update_transition_color(skip_and_previous_color)
 		load_level(current_level)
 
 func _on_skip_button_pressed():
+	menu_click.play_click()
 	if current_level + 1 < len(levels):
 		current_level += 1
 		update_transition_color(skip_and_previous_color)
 		load_level(current_level)
+	else:
+		tile_map.visible = false
+		main_menu.start_end_scene()
 
 func _on_scene_transitions_animation_started(anim_name):
 	is_playing_animation = true
 
 func level_completed():
+	win.play()
 	current_void_step = len(void_levels)
 	void_animation_timer.wait_time = 0.25 / current_void_step
 	void_animation_timer.start()
@@ -191,5 +266,26 @@ func next_void_step_in_animation():
 			current_level += 1
 			update_transition_color(complete_color)
 			load_level(current_level)
+		else:
+			tile_map.visible = false
+			main_menu.start_end_scene()
 	else:
 		void_animation_timer.start()
+
+func _on_credits_button_pressed():
+	menu_click.play_click()
+	main_menu.visible = false
+	credits.visible = true
+
+func _on_back_button_pressed():
+	menu_click.play_click()
+	main_menu.visible = true
+	credits.visible = false
+
+func _on_back_to_menu_button_pressed():
+	menu_click.play_click()
+	main_menu.visible = true
+	if tile_map:
+		tile_map.queue_free()
+	player.visible = false
+	level_ui.visible = false
