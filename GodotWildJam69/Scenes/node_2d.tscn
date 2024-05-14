@@ -1,6 +1,7 @@
-[gd_scene load_steps=51 format=3 uid="uid://bcsku5pcp7ffs"]
+[gd_scene load_steps=53 format=3 uid="uid://bcsku5pcp7ffs"]
 
 [ext_resource type="Script" path="res://Scripts/GameManager.gd" id="1_0q5i5"]
+[ext_resource type="PackedScene" uid="uid://dojrn3ny7wwr0" path="res://Scenes/Levels/level16.tscn" id="2_b61w5"]
 [ext_resource type="PackedScene" uid="uid://b8ygrgc3aj138" path="res://Scenes/Levels/level11.tscn" id="2_edas0"]
 [ext_resource type="PackedScene" uid="uid://d4sbcxudx4we" path="res://Scenes/Levels/level14.tscn" id="2_f1qf6"]
 [ext_resource type="SpriteFrames" uid="uid://b5ja20qa5n1pg" path="res://Graphics/Player/idleAnimation/idle.tres" id="2_j6cco"]
@@ -8,6 +9,7 @@
 [ext_resource type="PackedScene" uid="uid://xvpu3wnsyu16" path="res://Scenes/Levels/level1.tscn" id="2_n8q3n"]
 [ext_resource type="PackedScene" uid="uid://dqld4887wl64a" path="res://Scenes/Levels/level12.tscn" id="2_q6y6h"]
 [ext_resource type="PackedScene" uid="uid://bstbq2trg6obd" path="res://Scenes/Levels/level10.tscn" id="2_qvvs0"]
+[ext_resource type="PackedScene" uid="uid://c1ogxbjqd5ssk" path="res://Scenes/Levels/level15.tscn" id="2_r5k1a"]
 [ext_resource type="PackedScene" uid="uid://dtkjdcjhnpss7" path="res://Scenes/Levels/level8.tscn" id="2_ys4vq"]
 [ext_resource type="PackedScene" uid="uid://drl3q2rr1s5s7" path="res://Scenes/Levels/level2.tscn" id="3_bjbhi"]
 [ext_resource type="PackedScene" uid="uid://ceuu5yqwf7oso" path="res://Scenes/Levels/level13.tscn" id="3_jnfbw"]
@@ -77,21 +79,6 @@ border_width_top = 4
 border_width_right = 4
 border_width_bottom = 2
 
-[sub_resource type="Animation" id="Animation_ekjgr"]
-resource_name = "text_animation"
-tracks/0/type = "value"
-tracks/0/imported = false
-tracks/0/enabled = true
-tracks/0/path = NodePath("MarginContainer/MarginContainer/HBoxContainer/Label2:visible_ratio")
-tracks/0/interp = 1
-tracks/0/loop_wrap = true
-tracks/0/keys = {
-"times": PackedFloat32Array(0, 1),
-"transitions": PackedFloat32Array(1, 1),
-"update": 0,
-"values": [0.0, 1.0]
-}
-
 [sub_resource type="Animation" id="Animation_frjek"]
 length = 0.001
 tracks/0/type = "value"
@@ -107,6 +94,21 @@ tracks/0/keys = {
 "values": [1.0]
 }
 
+[sub_resource type="Animation" id="Animation_ekjgr"]
+resource_name = "text_animation"
+tracks/0/type = "value"
+tracks/0/imported = false
+tracks/0/enabled = true
+tracks/0/path = NodePath("MarginContainer/MarginContainer/HBoxContainer/Label2:visible_ratio")
+tracks/0/interp = 1
+tracks/0/loop_wrap = true
+tracks/0/keys = {
+"times": PackedFloat32Array(0, 1),
+"transitions": PackedFloat32Array(1, 1),
+"update": 0,
+"values": [0.0, 1.0]
+}
+
 [sub_resource type="AnimationLibrary" id="AnimationLibrary_r0llg"]
 _data = {
 "RESET": SubResource("Animation_frjek"),
@@ -120,7 +122,7 @@ colors = PackedColorArray(0.106239, 0.0482436, 0.0196758, 1, 0.477225, 0.292267,
 [node name="GameManager" type="Node2D"]
 texture_filter = 1
 script = ExtResource("1_0q5i5")
-levels = Array[PackedScene]([ExtResource("2_n8q3n"), ExtResource("3_bjbhi"), ExtResource("4_5ljl2"), ExtResource("5_dsa0x"), ExtResource("4_1ihlw"), ExtResource("7_5nd2w"), ExtResource("5_twlcf"), ExtResource("2_ys4vq"), ExtResource("2_mbnoy"), ExtResource("2_qvvs0"), ExtResource("2_edas0"), ExtResource("2_q6y6h"), ExtResource("3_jnfbw"), ExtResource("2_f1qf6")])
+levels = Array[PackedScene]([ExtResource("2_b61w5"), ExtResource("2_n8q3n"), ExtResource("3_bjbhi"), ExtResource("4_5ljl2"), ExtResource("5_dsa0x"), ExtResource("4_1ihlw"), ExtResource("7_5nd2w"), ExtResource("5_twlcf"), ExtResource("2_ys4vq"), ExtResource("2_mbnoy"), ExtResource("2_qvvs0"), ExtResource("2_edas0"), ExtResource("2_q6y6h"), ExtResource("3_jnfbw"), ExtResource("2_f1qf6"), ExtResource("2_r5k1a")])
 restart_color = Color(0.08, 0.08, 0.08, 1)
 skip_and_previous_color = Color(0, 1.44392e-07, 0.23362, 1)
 complete_color = Color(0.183641, 0.301256, 0.176616, 1)

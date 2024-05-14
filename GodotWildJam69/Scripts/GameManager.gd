@@ -152,22 +152,34 @@ func move_player(direction:Vector2i):
 
 func move_cell(tile_position:Vector2i, direction:Vector2i, tiles_to_push:Array):
 	var next_tile:TileData = tile_map.get_cell_tile_data(1, tile_position + direction)
+	var next_tile_ground_cover:TileData = tile_map.get_cell_tile_data(3, tile_position + direction)
 	tiles_to_push.append(tile_position)
 	if next_tile:
 		if next_tile.get_custom_data("pushable"):
 			var move = move_cell(tile_position + direction, direction, tiles_to_push)
 			return [move[0], move[1]]
 		else:
+			#var previous_ground_tile = tile_map.get_cell_tile_data(3, tile_position).get_custom_data("is_teleporter")
+			#if previous_ground_tile:
+				#tiles_to_push.remove_at(-1)
+				#return [true, tiles_to_push]
 			return [false, tiles_to_push]
+	if next_tile_ground_cover:
+		if next_tile_ground_cover.get_custom_data("pushable"):
+			var move = move_cell(tile_position + direction, direction, tiles_to_push)
+			return [move[0], move[1]]
 	return [true, tiles_to_push]
 
 func push_cell(tile_positions:Array, direction:Vector2i):
 	tile_positions.reverse()
 	for tile_position in tile_positions:
-		tile_map.set_cell(1, tile_position + direction, 1, tile_map.get_cell_atlas_coords(1, tile_position))
-		tile_map.erase_cell(1, tile_position)
-		tile_map.erase_cell(2, tile_position + direction)
-		print(tile_map.get_used_cells(2))
+		if tile_map.get_cell_tile_data(1, tile_position):
+			tile_map.set_cell(1, tile_position + direction, 1, tile_map.get_cell_atlas_coords(1, tile_position))
+			tile_map.erase_cell(1, tile_position)
+			tile_map.erase_cell(2, tile_position + direction)
+		elif tile_map.get_cell_tile_data(3, tile_position):
+			tile_map.set_cell(3, tile_position + direction, 1, tile_map.get_cell_atlas_coords(3, tile_position))
+			tile_map.erase_cell(3, tile_position)
 
 func teleport(current_position:Vector2i):
 	camera.apply_teleport_shake()
